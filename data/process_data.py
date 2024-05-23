@@ -67,8 +67,8 @@ def save_data(df, database_filename):
     output: saves df in database under 'Combined'
     '''
     engine = create_engine('sqlite:///' + database_filename)
-    table_name = database_filename.replace(".db","") + "_table"
-    df.to_sql(table_name, engine, index=False, if_exists='replace' )
+    # table_name = database_filename.replace(".db","") + "_table"
+    df.to_sql('DisasterResponse_table', engine, index=False, if_exists='replace' )
 
 
 def main():

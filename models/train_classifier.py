@@ -32,8 +32,8 @@ def load_data(database_filepath):
     '''
     # load data from database
     engine = create_engine('sqlite:///{}'.format(database_filepath))
-    table_name = os.path.basename(database_filepath).replace(".db","") + "_table"
-    df = pd.read_sql_table(table_name, engine)
+    # table_name = os.path.basename(database_filepath).replace(".db","") + "_table"
+    df = pd.read_sql_table('DisasterResponse_table', engine)
     X = df.message
     Y = df.iloc[:, 4:]
     category_names = list(Y.columns)
@@ -94,10 +94,12 @@ def evaluate_model(model, X_test, Y_test, category_names):
     
     '''
 
-    y_pred = model.predict(X_test)
-    for i, col in enumerate(category_names):
-        print("Feature {}: {}".format(i+1, col))
-        print(classification_report(Y_test[col], y_pred[:,i]))
+    Y_pred = model.predict(X_test)
+    print(classification_report(Y_test, Y_pred, target_names=category_names))
+    
+    # for i, col in enumerate(category_names):
+        # print("Feature {}: {}".format(i+1, col))
+        # print(classification_report(Y_test[col], y_pred[:,i]))
 
     #return True
 

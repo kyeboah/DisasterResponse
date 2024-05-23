@@ -6,6 +6,10 @@ This project is aimed at using classified text data provided bt Figure 8 to crea
 2. ML Pipeline models/train_classifier.py: Builds the entire ML pipeline and stores in a pickle file
 3. Web App in app folder: creates a visual representation of the model
 
+The full pipeline is essential in helping responder professionals easily retrieve messages during disasters
+and to be able to categorise, analyse trends which will enable right allocation of resources with the help of 
+supervised machine learning models.
+
 
 ### Files
 1. data/process_data.py: Python script executing the ETL pipeline
@@ -20,7 +24,7 @@ This project is aimed at using classified text data provided bt Figure 8 to crea
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
-        `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
+        `python data/process_data.py data/messages.csv data/categories.csv data/DisasterResponse.db`
     - To run ML pipeline that trains classifier and saves
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
