@@ -81,7 +81,7 @@ def build_model():
     'features__text_pipeline__vect__stop_words': 'english'
     }
 
-    cv = GridSearchCV(pipeline, parameters, cv=3, verbose=3, n_jobs=-1)
+    cv = GridSearchCV(pipeline, params, cv=3, verbose=3, n_jobs=-1)
 
     return cv
 
@@ -96,7 +96,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
     for i, col in enumerate(category_names):
         print("Feature {}: {}".format(i+1, col))
-        print(classification_report(y_test[col], y_pred[:,i]))
+        print(classification_report(Y_test[col], y_pred[:,i]))
 
     return True
 
