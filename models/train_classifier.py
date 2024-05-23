@@ -75,7 +75,7 @@ def build_model():
 
     params = {
     'clf__estimator__n_estimators': [20], 
-    'features__text_pipeline__vect__stop_words': 'english'
+    'features__text_pipeline__vect__stop_words': ['english']
     }
 
     cv = GridSearchCV(pipeline, params, cv=3, verbose=3, n_jobs=-1)
@@ -95,7 +95,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
         print("Feature {}: {}".format(i+1, col))
         print(classification_report(Y_test[col], y_pred[:,i]))
 
-    return True
+    #return True
 
 
 def save_model(model, model_filepath):
@@ -125,8 +125,8 @@ def main():
         evaluate_model(model, X_test, Y_test, category_names)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
-        #save_model(model, model_filepath)
-        joblib.dump(model, model_filepath)
+        save_model(model, model_filepath)
+        #joblib.dump(model, model_filepath)
 
         print('Trained model saved!')
 
