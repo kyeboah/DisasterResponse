@@ -68,9 +68,13 @@ def build_model():
     '''
     rf_classifier = RandomForestClassifier(random_state=42)
     pipeline = Pipeline([
-        ('vect', CountVectorizer(tokenizer=tokenize)),
-        ('tfidf', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(rf_classifier))
+        ('features', FeatureUnion([
+            ('text_pipeline', Pipeline([ # text processing pipeline
+                ('vect', CountVectorizer(tokenizer=tokenize)), 
+                ('tfidf', TfidfTransformer())
+            ]))
+        ])),
+        ('clf', MultiOutputClassifier(estimator=rf_classifier))  # classifier
     ])
 
     params = {
