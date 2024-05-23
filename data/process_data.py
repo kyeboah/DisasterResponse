@@ -5,6 +5,7 @@ the ETL Pipeline
 
 # Import libraries
 import sys
+import os
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
@@ -63,7 +64,8 @@ def save_data(df, database_filename):
     output: saves df in database under 'Combined'
     '''
     engine = create_engine('sqlite:///{}'.format(database_filename))
-    df.to_sql('Combined', engine, index=False)
+    table_name = database_filename.replace(".db","") + "_table"
+    df.to_sql(table_name, engine, index=False)
 
 
 def main():
