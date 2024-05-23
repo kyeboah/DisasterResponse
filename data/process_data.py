@@ -18,8 +18,8 @@ def load_data(messages_filepath, categories_filepath):
     Output:
     a DataFrame(df) containing merged messages and categories
     '''
-    messages = pd.read_csv('messages.csv')
-    categories = pd.read_csv('categories.csv')
+    messages = pd.read_csv(messages_filepath, encoding='utf-8')
+    categories = pd.read_csv(categories_filepath, encoding='utf-8')
 
     df = pd.merge(messages,categories, on='id')
 
@@ -66,15 +66,16 @@ def save_data(df, database_filename):
 
     output: saves df in database under 'Combined'
     '''
-    engine = create_engine('sqlite:///{}'.format(database_filename))
+    engine = create_engine('sqlite:///' + database_filename)
     table_name = database_filename.replace(".db","") + "_table"
-    df.to_sql(table_name, con=engine, index=False, if_exists='replace' )
+    df.to_sql(table_name, engine, index=False, if_exists='replace' )
 
 
 def main():
     if len(sys.argv) == 4:
 
-        messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
+        messages_filepath, categories_filepath, database_filepath = \
+        sys.argv[1:]
 
         print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
               .format(messages_filepath, categories_filepath))
