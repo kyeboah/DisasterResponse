@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 import pickle
+import joblib
 
 import re
 import nltk
@@ -67,17 +68,13 @@ def build_model():
     '''
     rf_classifier = RandomForestClassifier(random_state=42)
     pipeline = Pipeline([
-        ('features',FeatureUnion([
-            ('text_pipeline', Pipeline([
-                ('vect', CountVectorizer(tokenizer=tokenize)),
-                ('tfidf', TfidfTransformer())
-            ]))
-        ])),
-        ('clf', MultiOutputClassifier(estimator=rf_classifier))
+        ('vect', CountVectorizer(tokenizer=tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', MultiOutputClassifier(rf_classifier))
     ])
 
     params = {
-    'clf__estimator__n_estimators': 20, 
+    'clf__estimator__n_estimators': [20], 
     'features__text_pipeline__vect__stop_words': 'english'
     }
 
@@ -128,7 +125,8 @@ def main():
         evaluate_model(model, X_test, Y_test, category_names)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
-        save_model(model, model_filepath)
+        #save_model(model, model_filepath)
+        joblib.dump(model, model_filepath)
 
         print('Trained model saved!')
 
